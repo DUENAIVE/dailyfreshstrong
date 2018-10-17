@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>忘记密码</title>
+</head>
+<body>
+    <form action="{% url 'user:pwdforget' %}" method="post">
+        {% csrf_token %}
+    <div>
+        <em>用户名</em>
+        <input type="text" name="username"  placeholder="请输入用户名"/>
+    </div>
+    <div>
+        <em>验证码</em>
+        <input type="text" name="validate"  placeholder="请输入验证码">
+        <img src="{% url 'user:validate_code' %}" class="pass_input" alt="loading" id="img" onclick="func1()"/>
+    </div>
+    <div>
+        <input type="submit" value="提交">
+    </div>
+        <div>
+            {{ error.error }}
+        </div>
+
+    </form>
+    </body>
+</html>
+<script type="text/javascript">
+    function func1() {
+        document.getElementById("img").src="/user/validate_code/?"+Math.random();
+    }
+</script>

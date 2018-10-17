@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证邮箱</title>
+</head>
+<body>
+ <form action="{% url 'user:testemail' %}" method="post">
+     {% csrf_token %}
+    <div>
+        <em>输入邮箱</em>
+        <input type="text" name="email"  placeholder="输入邮箱"/>
+    </div>
+     <div>
+        <em>输入新密码</em>
+        <input type="password" name="newpwd"  placeholder="输入新密码"/>
+    </div>
+      <input type="submit" value="提交">
+ </form>
+</body>
+</html>

@@ -1,0 +1,147 @@
+{% extends 'user/base_user.html' %}
+{% load static from staticfiles %}
+<head>
+    {% block title %}
+        <title>天天生鲜-用户中心</title>
+    {% endblock title %}
+    {% block headjs %}
+        <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    {% endblock headjs %}
+</head>
+<body>
+{% block bodyright %}
+
+    <div class="right_content clearfix">
+        <h3 class="common_title2">收货地址</h3>
+        <div class="site_con">
+            <dl>
+                <dt>当前地址：</dt>
+                {#                {% if addr_now %}#}
+                {#                    <dd>{{ addr_now }}  </dd>#}
+                {#                {% else %}#}
+                {% for addr in user_site %}
+                    <dd><input style="margin-right: 10px" value="{{ addr.id }}" type="radio" name="default"
+                            {% if addr.is_defaule %} checked="checked"{% endif %}/> {{ addr.uaddr }}
+                        ({{ addr.urecv }}收) {{ addr.uphone }}
+                        <a href="{% url 'user:delete' %}?did={{ addr.id }}">删除</a>
+                    </dd>
+                {% endfor %}
+                {#            {% endif %}#}
+            </dl>
+        </div>
+        <h3 class="common_title2">编辑地址</h3>
+
+        <div class="site_con">
+        <form action="{% url 'user:user_site' %}" method="post">
+            {% csrf_token %}
+            <div class="form_group">
+                <label>收件人：</label>
+                <input type="text" name="recv_name"/>
+            </div>
+            <h3 class="common_title2">选择区域</h3>
+
+                <select id="pro" name="pro">
+                    <option value="">请选择省</option>
+                </select>
+                <select id="city" name="city">
+                    <option value="">请选择市</option>
+                </select>
+                <select id="area" name="area">
+                    <option value="">请选择县(区)</option>
+                </select>
+                <div class="form_group form_group2">
+                    <label>详细地址：</label>
+                    <textarea class="site_area" name="addr"></textarea>
+                </div>
+                <div class="form_group">
+                    <label>邮编：</label>{{ error.post_num_error }}
+                    <input type="text" name="post_num">
+                </div>
+                <div class="form_group">
+                    <label>手机：</label>
+                    <input type="text" name="phone_num">{{ error.phone_num_error }}
+                </div>
+                <input type="submit" name="" value="提交" class="info_submit">
+            </form>
+        </div>
+    </div>
+{% endblock bodyright %}
+</body>
+{% block js %}
+    <script type="text/javascript">
+        $(function () {
+            pro()
+            city()
+            area()
+            areachange()
+            is_default()
+        });
+
+        function pro() {
+            $.ajax({
+                'url': '{% url 'user:pro' %}',
+                'success': function (data) {
+                    prolist = data["pro_list"];
+                    prolist.forEach(function (item) {
+                        $("#pro").append('<option value="' + item['id'] + '">' + item['proname'] + '</option>')
+                    })
+                }
+            })
+
+        }
+
+        function city() {
+            $("#pro").change(function () {
+                $.ajax({
+                    'url': '{% url 'user:city' %}',
+                    'data': {
+                        'pid': $("#pro").val()
+                    },
+                    'success': function (date) {
+                        city_list = date['city_list'];
+                        $("#city").html('<option value="">请选择市</option>')
+                        city_list.forEach(function (item) {
+                            $("#city").append('<option value="' + item['id'] + '">' + item['cityname'] + '</option>')
+                        })
+                    }
+                })
+            })
+        }
+        function area() {
+            $("#city").change(function () {
+                $.ajax({
+                    'url': '{% url 'user:area' %}',
+                    'data': {
+                        'cid': $("#city").val()
+                    },
+                    'success': function (date) {
+                        area_list = date['area_list'];
+                        $("#area").html('<option value="">请选择县(区)</option>')
+                        area_list.forEach(function (item) {
+                            $("#area").append('<option value="' + item['id'] + '">' + item['areaname'] + '</option>')
+                        })
+                    }
+                })
+            })
+        }
+
+        function areachange() {
+            $("#pro").change(function () {
+                $("#area").html('<option value="">请选择县(区)</option>')
+            })
+        }
+
+        function is_default() {
+            $(":radio").click(function () {
+                $.ajax({
+                    'url': '{% url 'user:default' %}',
+                    'data': {
+                        'rid': $(this).val()
+                    }
+                })
+            })
+
+        }
+    </script>
+{% endblock js %}
+
