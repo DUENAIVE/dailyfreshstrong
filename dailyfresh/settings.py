@@ -126,6 +126,9 @@ USE_L10N = True
 
 # 上传文件存储的路径
 MEDIA_ROOT=os.path.join(BASE_DIR,'static/media')
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 # 配置静态文件的保存路径

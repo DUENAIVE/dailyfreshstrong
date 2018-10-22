@@ -127,7 +127,7 @@ class LoginView(View):
                 if next_url:
                     return redirect(next_url)
                 else:
-                    return redirect(reverse("user:index"))
+                    return redirect(reverse("goods:index"))
             else:
                 error["error"] = "账号尚未激活"
                 return render(request, "user/login.html", {"error": error})
@@ -193,6 +193,7 @@ class TestEmailView(View):
         send_mail(subject, message, sender, receiver, html_message=html_message)
         return redirect(reverse('user:login'))
 
+
 class ValidateCode(View):
     def get(self,request):
         # 定义变量,画面背景色,宽高
@@ -232,10 +233,6 @@ class ValidateCode(View):
         # 将内存中的图片数据返回给客户端
         return HttpResponse(buf.getbuffer(), 'image/png')
 
-class IndexView(View):
-    def get(self,request):
-        return render(request, "goods/index.html")
-
 
 class UserSiteView(LoginRequireMixin, View):
     '''编辑收货信息界面'''
@@ -261,10 +258,6 @@ class UserSiteView(LoginRequireMixin, View):
         pro_id = request_info.get("pro")
         city_id = request_info.get("city")
         area_id = request_info.get("area")
-        # 找出信息
-        pro1 = Area.objects.get(codeid=pro_id)
-        city1 = Area.objects.get(codeid=city_id)
-        area1 = Area.objects.get(codeid=area_id)
 
         error = {}  # 创建错误字典将错误保存在字典中
         if not re.match(r'^1(3|4|5|7|8)\d{9}$', phone_num):
@@ -273,6 +266,12 @@ class UserSiteView(LoginRequireMixin, View):
             error["post_num_error"] = "邮编错误"
             # 如果字典不为空就不保存到数据库
         #     将错误显示到编辑地址页面
+        if not pro_id:
+            error["pro_error"]='请选择省'
+        if not city_id:
+            error["city_error"]="请选择市"
+        if not area_id:
+            error["area_error"]="请选择区(县)"
         if error:
             user_id = request.session.get("_auth_user_id")
             user_site = User_Site.objects.filter(user_id=user_id,is_delete=0)
@@ -287,6 +286,11 @@ class UserSiteView(LoginRequireMixin, View):
             #     addrs.save()
             # except:
             #     pass
+            # 找出信息
+            pro1 = Area.objects.get(codeid=pro_id)
+            city1 = Area.objects.get(codeid=city_id)
+            area1 = Area.objects.get(codeid=area_id)
+
             # 将信息创建到数据库中
             user_site = User_Site.objects.create(urecv=recvname, upost_num=post_num, uphone=phone_num,
                                                  uaddr='%s-%s-%s-%s' % (pro1, city1, area1, addr),
@@ -403,12 +407,8 @@ class UserInfoView(LoginRequireMixin, View):
             "page": "1"
         }
         return render(request, "user/user_center_info.html", {"cxt": cxt})
-        # def post(self,request):
-        # return render(request,)
-
 
 class UserOrderView(LoginRequireMixin, View):
     '''订单界面'''
-
     def get(self, request):
         return render(request, "user/user_center_order.html", {"page": "2"})

@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'^user_info/$', views.UserInfoView.as_view(), name="user_info"),
     url(r'^user_order/$', views.UserOrderView.as_view(), name="user_order"),
     url(r'^active/(?P<token>.*)/$', views.ActiveView.as_view(), name="active"),
-    url(r'^index/$', views.IndexView.as_view(), name="index"),
     url(r'^validate_code/$', views.ValidateCode.as_view(), name="validate_code"),
     url(r'^pro/$',views.ProView.as_view(),name="pro"),
     url(r'^city/$',views.CityView.as_view(),name="city"),

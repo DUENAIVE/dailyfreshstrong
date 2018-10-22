@@ -30,25 +30,32 @@
             </dl>
         </div>
         <h3 class="common_title2">编辑地址</h3>
+        <p id="demo">点击这个按钮，获得您的坐标：</p>
+        <button onclick="getLocation()">试一下</button>
 
         <div class="site_con">
-        <form action="{% url 'user:user_site' %}" method="post">
-            {% csrf_token %}
-            <div class="form_group">
-                <label>收件人：</label>
-                <input type="text" name="recv_name"/>
-            </div>
-            <h3 class="common_title2">选择区域</h3>
+
+            <form action="{% url 'user:user_site' %}" method="post">
+                {% csrf_token %}
+                <div class="form_group">
+                    <label>收件人：</label>
+                    <input type="text" name="recv_name"/>
+                </div>
+                <h3 class="common_title2">选择区域</h3>
 
                 <select id="pro" name="pro">
                     <option value="">请选择省</option>
+                    {{ error.pro_error }}
                 </select>
                 <select id="city" name="city">
                     <option value="">请选择市</option>
+                    {{ error.city_error }}
                 </select>
                 <select id="area" name="area">
                     <option value="">请选择县(区)</option>
+                    {{ error.area_error }}
                 </select>
+
                 <div class="form_group form_group2">
                     <label>详细地址：</label>
                     <textarea class="site_area" name="addr"></textarea>
@@ -70,10 +77,10 @@
 {% block js %}
     <script type="text/javascript">
         $(function () {
-            pro()
-            city()
-            area()
-            areachange()
+            pro();
+            city();
+            area();
+            areachange();
             is_default()
         });
 
@@ -99,7 +106,7 @@
                     },
                     'success': function (date) {
                         city_list = date['city_list'];
-                        $("#city").html('<option value="">请选择市</option>')
+                        $("#city").html('<option value="">请选择市</option>');
                         city_list.forEach(function (item) {
                             $("#city").append('<option value="' + item['id'] + '">' + item['cityname'] + '</option>')
                         })
@@ -107,6 +114,7 @@
                 })
             })
         }
+
         function area() {
             $("#city").change(function () {
                 $.ajax({
@@ -116,7 +124,7 @@
                     },
                     'success': function (date) {
                         area_list = date['area_list'];
-                        $("#area").html('<option value="">请选择县(区)</option>')
+                        $("#area").html('<option value="">请选择县(区)</option>');
                         area_list.forEach(function (item) {
                             $("#area").append('<option value="' + item['id'] + '">' + item['areaname'] + '</option>')
                         })
@@ -142,6 +150,24 @@
             })
 
         }
+
+    </script>
+    <script>
+
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            else {x.innerHTML = "Geolocation is not supported by this browser.";}
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+                "<br />Longitude: " + position.coords.longitude;
+        }
+
     </script>
 {% endblock js %}
 

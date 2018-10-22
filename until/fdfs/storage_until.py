@@ -3,7 +3,7 @@ from fdfs_client.client import Fdfs_client
 from django.conf import settings
 
 
-class FDFSStroage(Storage):
+class FDFSStorage(Storage):
     def __init__(self):
         self.fdfs_conf = settings.FDFS_CLIENT_CONF
         self.fdfs_url = settings.FDFS_URL
@@ -17,14 +17,15 @@ class FDFSStroage(Storage):
         # 创建Fdfs_client对象
         client = Fdfs_client(self.fdfs_conf)
         # 上传文件到FastDFS系统中
-        ret = client.upload_appender_by_buffer(content.read())
+        ret = client.upload_by_buffer(content.read())
+        print('ret',ret)
         # 查看上传状态
-        if ret.get('Status') != 'Upload successed':
+        if ret.get('Status') != 'Upload successed.':
             # 抛出异常
             raise Exception('上传失败')
-        # 获取返回的文件id
+        # 获取返回的文件id名
         filename=ret.get("Remote file_id").decode()
-        # 将文件id返回
+        # 将文件id名返回
         return filename
 
     def exists(self, name):
