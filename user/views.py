@@ -195,7 +195,7 @@ class TestEmailView(View):
 
 
 class ValidateCode(View):
-    def get(self,request):
+    def get(self, request):
         # 定义变量,画面背景色,宽高
         width = 100
         height = 25
@@ -240,7 +240,7 @@ class UserSiteView(LoginRequireMixin, View):
     def get(self, request):
         '''在页面显示所有的地址信息'''
         user_id = request.session.get("_auth_user_id")
-        user_site = User_Site.objects.filter(user_id=user_id,is_delete=0)
+        user_site = User_Site.objects.filter(user_id=user_id, is_delete=0)
         return render(request, "user/user_center_site.html", {"page": "3", "user_site": user_site})
 
     def post(self, request):
@@ -267,14 +267,14 @@ class UserSiteView(LoginRequireMixin, View):
             # 如果字典不为空就不保存到数据库
         #     将错误显示到编辑地址页面
         if not pro_id:
-            error["pro_error"]='请选择省'
+            error["pro_error"] = '请选择省'
         if not city_id:
-            error["city_error"]="请选择市"
+            error["city_error"] = "请选择市"
         if not area_id:
-            error["area_error"]="请选择区(县)"
+            error["area_error"] = "请选择区(县)"
         if error:
             user_id = request.session.get("_auth_user_id")
-            user_site = User_Site.objects.filter(user_id=user_id,is_delete=0)
+            user_site = User_Site.objects.filter(user_id=user_id, is_delete=0)
             return render(request, "user/user_center_site.html", {"page": "3", "error": error, "user_site": user_site})
         else:
             # 将新建的信息当做默认地址
@@ -298,13 +298,15 @@ class UserSiteView(LoginRequireMixin, View):
             user_site.save()
             '''全部地址'''
             user_id = request.session.get("_auth_user_id")
-            user_site = User_Site.objects.filter(user_id=user_id,is_delete=0)
-            return render(request, "user/user_center_site.html", {"page": "3","user_site": user_site})
+            user_site = User_Site.objects.filter(user_id=user_id, is_delete=0)
+            return render(request, "user/user_center_site.html", {"page": "3", "user_site": user_site})
+
+
 #
 class DefaultView(View):
-    def get(self,request):
-        rid=request.GET.get("rid")
-        default_addr=User_Site.objects.get(id=rid)
+    def get(self, request):
+        rid = request.GET.get("rid")
+        default_addr = User_Site.objects.get(id=rid)
         try:
             # 如果有默认地址将is_defaule设置为False
             user = request.user
@@ -313,16 +315,19 @@ class DefaultView(View):
             addrs.save()
         except:
             pass
-        default_addr.is_defaule=True
+        default_addr.is_defaule = True
         default_addr.save()
         return HttpResponse("默认地址设置成功")
+
+
 import json
 
+
 class DeleteView(View):
-    def get(self,request):
-        did=request.GET.get('did')
-        delete_user_addr=User_Site.objects.get(id=did)
-        delete_user_addr.is_delete=1
+    def get(self, request):
+        did = request.GET.get('did')
+        delete_user_addr = User_Site.objects.get(id=did)
+        delete_user_addr.is_delete = 1
         delete_user_addr.save()
         user_id = request.session.get("_auth_user_id")
         user_site = User_Site.objects.filter(user_id=user_id, is_delete=0)
@@ -331,7 +336,7 @@ class DeleteView(View):
 
 # 获取省信息
 class ProView(View):
-    def get(self,request):
+    def get(self, request):
         # 没有parent_id的就是
         prolist = Area.objects.filter(parent=0).values('cityname', 'codeid')
         # print(prolist)
@@ -350,7 +355,7 @@ class ProView(View):
 
 # 获取市信息
 class CityView(View):
-    def get(self,request):
+    def get(self, request):
         pid = request.GET.get('pid')
         citylist = Area.objects.filter(parent=pid).values('cityname', 'codeid')
         # print(citylist)
@@ -369,7 +374,7 @@ class CityView(View):
 
 # 获取县/区
 class AreaView(View):
-    def get(self,request):
+    def get(self, request):
         cid = request.GET.get('cid')
         arealist = Area.objects.filter(parent=cid).values('cityname', 'codeid')
         # print(arealist)
@@ -386,6 +391,10 @@ class AreaView(View):
         return HttpResponse(hjson, content_type="application/json;charset=utf-8")
 
 
+from redis import StrictRedis
+from goods.models import *
+
+
 class UserInfoView(LoginRequireMixin, View):
     '''用户信息界面'''
 
@@ -395,20 +404,34 @@ class UserInfoView(LoginRequireMixin, View):
         username = user.username
         email = user.email
         user = request.user
-        addrs = User_Site.objects.get(user=user, is_defaule=True)
+        try:
+            addrs = User_Site.objects.get(user=user, is_defaule=True)
+        except:
+            addrs = None
         # print(addrs)
         phone_num = addrs.uphone
         addr = addrs.uaddr
+        connect = StrictRedis("192.168.12.184")
+        history_key = "history_%d" % request.user.id
+        history = connect.lrange(history_key, 0, -1)
+
+        his_goods = GoodsSKU.objects.filter(id__in=history)
+        print(his_goods)
+
         cxt = {
+
             "username": username,
             "email": email,
             "phone_num": phone_num,
             "addr": addr,
-            "page": "1"
+            "page": "1",
+            "his_goods": his_goods
         }
         return render(request, "user/user_center_info.html", {"cxt": cxt})
 
+
 class UserOrderView(LoginRequireMixin, View):
     '''订单界面'''
+
     def get(self, request):
         return render(request, "user/user_center_order.html", {"page": "2"})

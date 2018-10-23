@@ -235,7 +235,7 @@ html,body{height:100%}
 
 .goods_detail_pic{width:350px;height:350px;margin:24px 0 0 24px;}
 .goods_detail_list{
-	width:730px;height:350px;margin:24px 24px 0 0;
+	width:730px;height:420px;margin:24px 24px 0 0;
 }
 .goods_detail_list h3{font-size:24px;line-height:24px;color:#666;font-weight:normal;}
 .goods_detail_list p{color:#666;line-height:40px;}
@@ -254,7 +254,7 @@ html,body{height:100%}
 .total{height:35px;line-height:35px;margin-top:25px;}
 .total em{font-style:normal;color:#ff3e3e;font-size:18px}
 
-.operate_btn{height:40px;margin-top:35px;font-size:0;position:relative;}
+.operate_btn{height:40px;margin-top:60px;font-size:0;position:relative;}
 .operate_btn .buy_btn,.operate_btn .add_cart{display:inline-block;width:178px;height:38px;border:1px solid #c40000;font-size:14px;color:#c40000;line-height:38px;text-align:center;background-color:#ffeded;}
 .operate_btn .add_cart{background-color:#c40000;color:#fff;margin-left:10px;position:relative;z-index:10;}
 

@@ -125,9 +125,7 @@ USE_L10N = True
 # USE_TZ = True
 
 # 上传文件存储的路径
-MEDIA_ROOT=os.path.join(BASE_DIR,'static/media')
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -138,21 +136,29 @@ STATICFILES_DIRS = [
 ]
 AUTH_USER_MODEL = "user.User"
 
-
 # 登录认证
-LOGIN_URL="/user/login"
+LOGIN_URL = "/user/login"
 
 # 富文本编辑器配置
-TINYMCE_DEFAULT_CONFIG={
-    "theme":"advanced",
-    "width":600,
-    "height":400,
+TINYMCE_DEFAULT_CONFIG = {
+    "theme": "advanced",
+    "width": 600,
+    "height": 400,
 }
 
-HOST_IP='192.168.12.184'
-#FastDFS设置自定义存储的类
-DEFAULT_FILE_STORAGE='until.fdfs.storage_until.FDFSStorage'
+HOST_IP = '192.168.12.184'
+# FastDFS设置自定义存储的类
+DEFAULT_FILE_STORAGE = 'until.fdfs.storage_until.FDFSStorage'
 # FastDFS设置客户端配置文件
-FDFS_CLIENT_CONF='until/fdfs/client.conf'
+FDFS_CLIENT_CONF = 'until/fdfs/client.conf'
 # FastDFS设置url
-FDFS_URL='http://%s:8888/'%HOST_IP
+FDFS_URL = 'http://%s:8888/' % HOST_IP
+
+# 设置缓存在django中第三次使用redis
+CACHES = {
+    "default": {
+        "BACKEND": "redis_cache.RedisCache",
+        "LOCATION": "redis://192.168.12.184:6379/4",
+        "TIMEOUT": 60,
+    }
+}
