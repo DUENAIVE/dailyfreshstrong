@@ -15,6 +15,7 @@ import random
 from PIL import ImageFont, ImageDraw, ImageFilter, ImageColor, Image
 from django.contrib.auth import authenticate, login, logout
 from until.my_until import LoginRequireMixin
+from order.models import *
 
 
 class RegisterView(View):
@@ -415,7 +416,12 @@ class UserInfoView(LoginRequireMixin, View):
         history_key = "history_%d" % request.user.id
         history = connect.lrange(history_key, 0, -1)
 
-        his_goods = GoodsSKU.objects.filter(id__in=history)
+        # his_goods = GoodsSKU.objects.filter(id__in=history)
+
+        try:
+            his_goods = [GoodsSKU.objects.get(id=i) for i in history]
+        except:
+            his_goods = None
         print(his_goods)
 
         cxt = {
@@ -430,8 +436,51 @@ class UserInfoView(LoginRequireMixin, View):
         return render(request, "user/user_center_info.html", {"cxt": cxt})
 
 
+from django.core.paginator import Paginator
+
+
 class UserOrderView(LoginRequireMixin, View):
     '''订单界面'''
 
-    def get(self, request):
-        return render(request, "user/user_center_order.html", {"page": "2"})
+    def get(self, request, pn):
+        user = request.user
+        orders = OrderInfo.objects.filter(user=user).order_by("-create_time")
+        for order in orders:
+            # 根据order_id查询订单商品
+            order_skus = OrderGoods.objects.filter(order_id=order.order_id)
+            for order_sku in order_skus:
+                amount = int(order_sku.count) * order_sku.price
+                order_sku.amount = amount
+            # 给order添加订单详情属性
+            order.order_skus = order_skus
+
+        paginator = Paginator(orders, 1)
+        try:
+            pn = int(pn)
+        except:
+            pn = 1
+        if pn > paginator.num_pages:
+            pn = 1
+        # 获取第page页的Page实例对象
+        order_page = paginator.page(pn)
+        # 页码轮播控制
+        num_pages = paginator.num_pages
+        if num_pages < 5:
+            pages = range(1, num_pages + 1)
+        elif pn <= 3:
+            pages = range(1, 6)
+
+        elif num_pages - pn <= 2:
+            pages = range(num_pages - 4, num_pages + 1)
+        else:
+            pages = range(pn - 2, pn + 3)
+
+        # 组织上下文
+        cxt = {
+            "order_page": order_page,
+            "pages": pages,
+            "page": 2,
+            'pn1': pn
+        }
+
+        return render(request, "user/user_center_order.html", cxt)

@@ -7,7 +7,6 @@
     {% block headjs %}
         <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
     {% endblock headjs %}
-
 </head>
 <body>
 {% block body %}
@@ -19,8 +18,10 @@
         <a href="#">商品详情</a>
     </div>
 
+
     <div class="goods_detail_con clearfix">
-        <div ><img src="{{ sku.image.url }}"  onmouseover="big()" onmouseout="small()" class="goods_detail_pic fl" style="width:350px;height:350px" id="bigger"></div>
+        <div><img src="{{ sku.image.url }}" onmouseover="big()" onmouseout="small()" class="goods_detail_pic fl"
+                  style="width:350px;height:350px" id="bigger"></div>
 
         <div class="goods_detail_list fr">
             <h3>{{ sku.name }}</h3>
@@ -33,7 +34,7 @@
                 <div class="num_name fl">数 量：</div>
                 <div class="num_add fl">
                     <input type="text" class="num_show fl" value="0">
-{#                    <button class="add fr">+</button>#}
+                    {#                    <button class="add fr">+</button>#}
                     <a href="javascript:;" class="add fr">+</a>
                     <a href="javascript:;" class="minus fr">-</a>
                 </div>
@@ -41,12 +42,12 @@
             <div class="total">总价：<em>0</em></div>
             <div class="total" style=" height:35px;line-height:35px;margin-top:9px;">其他类型：
                 {% for same in same_spu %}
-                <a href="{% url "goods:detail" %}?hid={{ same.id }}"><em>{{ same.name }}</em></a>
+                    <a href="{% url "goods:detail" %}?hid={{ same.id }}">{{ same.name }}</a>
                 {% endfor %}
             </div>
             <div class="operate_btn">
                 <a href="javascript:;" class="buy_btn">立即购买</a>
-                <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+                <a href="javascript:;" class="add_cart" id="add_cart" sku_id="{{ sku.id }}">加入购物车</a>
             </div>
         </div>
     </div>
@@ -57,11 +58,11 @@
                 <h3>新品推荐</h3>
                 <ul>
                     {% for new in newadd %}
-                    <li>
-                        <a href="{% url "goods:detail" %}?hid={{ new.id }}"><img src="{{ new.image.url }}"></a>
-                        <h4><a href="{% url "goods:detail" %}?hid={{ new.id }}">{{ new.name }}</a></h4>
-                        <div class="prize">{{ new.price }}</div>
-                    </li>
+                        <li>
+                            <a href="{% url "goods:detail" %}?hid={{ new.id }}"><img src="{{ new.image.url }}"></a>
+                            <h4><a href="{% url "goods:detail" %}?hid={{ new.id }}">{{ new.name }}</a></h4>
+                            <div class="prize">{{ new.price }}</div>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -69,91 +70,135 @@
 
         <div class="r_wrap fr clearfix">
             <ul class="detail_tab clearfix">
-                <li class="active">商品介绍</li>
-                <li>评论</li>
+                <li class="active" id="goods">商品介绍</li>
+                <li id="discuss">评论</li>
             </ul>
 
-            <div class="tab_content">
+            <div class="tab_content" id="goods_detail">
                 <dl>
                     <dt>商品详情：</dt>
                     {% autoescape off %}
-                    <dd>{{ sku.goods.detail }}</dd>
+                        <dd>{{ sku.goods.detail }}</dd>
                     {% endautoescape %}
                 </dl>
             </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="tab_content" id="ping">
+                    <dl>
+                        <dt>参与讨论：</dt>
+
+                        <dd><input type="text" name="dis" id="dis1"/></dd>
+
+                        <dd><input type="submit" value="评论"/></dd>
+                        {% for i in discuss %}
+                            <div>{{ i.content }}
+                                <dd><input type="text" name="dis" id="dis2" value="@{{ i.user }}"
+                                           style="display: none"/>
+                                    <button id="dis" style="display: block">评论</button>
+
+                                    <button id="dis3" style="display: none">回复</button>
+
+                                </dd>
+                            </div>
+                        {% endfor %}
+
+
+                    </dl>
+                </div>
+            </form>
+
 
         </div>
     </div>
-
     <div class="add_jump"></div>
 {% endblock body %}
-
 
 </body>
 {% block js %}
     <script>
-    var image=document.getElementById("bigger")
-     function big () {
+        var image = document.getElementById("bigger");
+        $("#dis").click(function () {
+            $("#dis2").attr('style', 'display: block')
+            $("#dis").attr('style', 'display: none')
+            $("#dis3").attr('style', 'display: block')
+        })
+
+        $('#discuss').click(function () {
+            $("#discuss").attr("class", "active");
+            $("#goods").attr("class", "");
+            $("#goods_detail").attr("style", "display:none");
+            $("#ping").attr("style", "display:block")
+        });
+        $('#goods').click(function () {
+            $("#goods").attr("class", "active");
+            $("#discuss").attr("class", "");
+            $("#goods_detail").attr("style", "display:block");
+            $("#ping").attr("style", "display:none")
+        });
+
+
+        function big() {
             image.style.width = '500px';
-             image.style.height = '500px';
+            image.style.height = '500px';
         }
-    function small () {
-             image.style.width = '350px';
-             image.style.height = '350px';
+
+        function small() {
+            image.style.width = '350px';
+            image.style.height = '350px';
         }
-    $(".add").click(function(){
-       var x= $(".num_show").val()
-        x=parseInt(x)
-        x+=1
 
-        $(".num_show").val(x)
-        var price=$(".show_pirze em").html()
+        $(".add").click(function () {
+            var x = $(".num_show").val();
+            x = parseInt(x);
+            x += 1;
 
-        $(".total em").html(x*price)
+            $(".num_show").val(x);
+            var price = $(".show_pirze em").html();
 
-
-    })
-    $(".minus").click(function(){
-        var x= $(".num_show").val()
-        x=parseInt(x)
-        x-=1
-        $(".num_show").val(x)
-        $(".minus").val(x)
-        var price=$(".show_pirze em").html()
-
-        $(".total em").html(x*price)
+            $(".total em").html(x * price)
 
 
-    })
+        });
+        $(".minus").click(function () {
+            var x = $(".num_show").val();
+            x = parseInt(x);
+            x -= 1;
+            $(".num_show").val(x);
+            $(".minus").val(x);
+            var price = $(".show_pirze em").html();
 
+            $(".total em").html(x * price)
+        })
 
-
-    </script>
-
-    <script type="text/javascript">
         var $add_x = $('#add_cart').offset().top;
         var $add_y = $('#add_cart').offset().left;
 
         var $to_x = $('#show_count').offset().top;
         var $to_y = $('#show_count').offset().left;
 
-        $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
         $('#add_cart').click(function () {
-            $(".add_jump").stop().animate({
-                    'left': $to_y + 7,
-                    'top': $to_x + 7
-                },
-                "fast", function () {
-                    $(".add_jump").fadeOut('fast', function () {
-                        $('#show_count').html(2);
-                    });
-
-                });
+            sku_id = $(this).attr("sku_id")
+            count = $(".num_show").val()
+            csrf = $("input[name='csrfmiddlewaretoken']").val()
+            param = {"sku_id": sku_id, "count": count, "csrfmiddlewaretoken": csrf}
+            $.post('{% url "cart:add" %}', param, function (data) {
+                if (data.res == 5) {
+                    $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
+                    $(".add_jump").stop().animate({
+                            'left': $to_y + 7,
+                            'top': $to_x + 7
+                        },
+                        "fast", function () {
+                            $(".add_jump").fadeOut('fast', function () {
+                                $('#show_count').html(data.total_count);
+                            });
+                        });
+                }
+                else {
+                    alert(data.errormsg)
+                }
+            })
         })
-
-
-
-
-
     </script>
 {% endblock js %}

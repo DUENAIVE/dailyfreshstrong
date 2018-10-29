@@ -18,23 +18,23 @@
             <div class="welcome fl">欢迎来到天天生鲜!</div>
             <div class="fr">
                 {% if request.user.is_authenticated %}
-                <div class="login_btn fl">
-                    欢迎您：<em>{{ request.user }}</em>
-                </div>
+                    <div class="login_btn fl">
+                        欢迎您：<em>{{ request.user }}</em>
+                    </div>
                 {% else %}
-                <div class="login_btn fl">
-                    <a href="../user/login.html">登录</a>
-                    <span>|</span>
-                    <a href="../user/register.html">注册</a>
-                </div>
+                    <div class="login_btn fl">
+                        <a href="{% url 'user:login' %}">登录</a>
+                        <span>|</span>
+                        <a href="{% url 'user:register' %}">注册</a>
+                    </div>
                 {% endif %}
                 <div class="user_link fl">
                     <span>|</span>
                     <a href="{% url "user:user_info" %}">用户中心</a>
                     <span>|</span>
-                    <a href="cart.html">我的购物车</a>
+                    <a href="{% url "cart:cartinfo" %}">我的购物车</a>
                     <span>|</span>
-                    <a href="../user/user_center_order.html">我的订单</a>
+                    <a href="{% url "user:user_order" 1 %}">我的订单</a>
                 </div>
             </div>
         </div>
@@ -43,46 +43,52 @@
 {% block head %}
 
 
-	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="{% static 'images/logo.png'%}"></a>
-		<div class="search_con fl">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
-		<div class="guest_cart fr">
-			<a href="cart.html" class="cart_name fl">我的购物车</a>
-			<div class="goods_count fl" id="show_count">1</div>
-		</div>
-	</div>
+    <div class="search_bar clearfix">
+        <a href="{% url "goods:index" %}" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
 
-	<div class="navbar_con">
-		<div class="navbar clearfix">
-			<div class="subnav_con fl">
-				<h1>全部商品分类</h1>
-				<span></span>
-				<ul class="subnav">
+        <div class="search_con fl">
+            <form action="/search" method="get">
+                <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+                <input type="submit" class="input_btn fr" name="" value="搜索">
+            </form>
+        </div>
+
+
+        <div class="guest_cart fr">
+            <a href="{% url "cart:cartinfo" %}" class="cart_name fl">我的购物车</a>
+            <div class="goods_count fl" id="show_count">{{ cart_count }}</div>
+        </div>
+    </div>
+
+    <div class="navbar_con">
+        <div class="navbar clearfix">
+            <div class="subnav_con fl">
+                <h1>全部商品分类</h1>
+                <span></span>
+                <ul class="subnav">
                     {% for type in types %}
-					<li><a href="#" class="{{ type.logo }}">{{ type.name }}</a></li>
+                        <li><a href="{% url 'goods:list' %}?type_id={{ type.id }}&pn=1&sort=default"
+                               class="{{ type.logo }}">{{ type.name }}</a></li>
                     {% endfor %}
-				</ul>
-			</div>
-			<ul class="navlist fl">
-				<li><a href="{% url 'goods:index' %}">首页</a></li>
-				<li class="interval">|</li>
-				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
-			</ul>
-		</div>
-	</div>
+                </ul>
+            </div>
+            <ul class="navlist fl">
+                <li><a href="{% url 'goods:index' %}">首页</a></li>
+                <li class="interval">|</li>
+                <li><a href="">手机生鲜</a></li>
+                <li class="interval">|</li>
+                <li><a href="">抽奖</a></li>
+            </ul>
+        </div>
+    </div>
 {% endblock head %}
 
 <div class="main_con clearfix">
     {% block body %}
-    {% block bodyleft %}{% endblock bodyleft %}
+        {% block bodyleft %}{% endblock bodyleft %}
 
 
-    {% block bodyright %} {% endblock bodyright %}
+        {% block bodyright %} {% endblock bodyright %}
     {% endblock body %}
 </div>
 

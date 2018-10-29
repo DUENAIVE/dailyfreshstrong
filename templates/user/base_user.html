@@ -32,9 +32,9 @@
                     <span>|</span>
                     <a href="{% url 'user:user_info' %}">用户中心</a>
                     <span>|</span>
-                    <a href="../goods/cart.html">我的购物车</a>
+                    <a href="{% url "cart:cartinfo" %}">我的购物车</a>
                     <span>|</span>
-                    <a href="user_center_order.html">我的订单</a>
+                    <a href="{% url "user:user_order" 1 %}">我的订单</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <h3>用户中心</h3>
             <ul>
                 <li><a href="{% url 'user:user_info' %}" {% if cxt.page == "1" %}class="active" {% endif %}>· 个人信息</a></li>
-                <li><a href="{% url 'user:user_order' %}" {% if page == "2" %}class="active" {% endif %}>· 全部订单</a></li>
+                <li><a href="{% url 'user:user_order' 1 %}" {% if page == "2" %}class="active" {% endif %}>· 全部订单</a></li>
                 <li><a href="{% url 'user:user_site' %}" {% if page == "3" %}class="active" {% endif %}>· 收货地址</a></li>
             </ul>
         </div>

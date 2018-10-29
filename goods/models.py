@@ -2,6 +2,7 @@ from django.db import models
 from db.base_model import *
 # Create your models here.
 from tinymce.models import HTMLField
+from user.models import *
 
 
 class GoodsType(BaseModel):
@@ -91,12 +92,12 @@ class IndexTypeGoodsBanner(BaseModel):
     )
     type = models.ForeignKey("GoodsType", verbose_name="商品类型")
     sku = models.ForeignKey("GoodsSKU", verbose_name="商品sku")
-    display_type=models.SmallIntegerField(default=1,choices=DISPLAY_TYPE_CHOICES,verbose_name="展示方式")
-    index = models.SmallIntegerField(default= 0,verbose_name="展示顺序")
+    display_type = models.SmallIntegerField(default=1, choices=DISPLAY_TYPE_CHOICES, verbose_name="展示方式")
+    index = models.SmallIntegerField(default=0, verbose_name="展示顺序")
 
     class Meta:
-        db_table="df_index_type_goods"
-        verbose_name="主页分类展示商品"
+        db_table = "df_index_type_goods"
+        verbose_name = "主页分类展示商品"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -105,12 +106,27 @@ class IndexTypeGoodsBanner(BaseModel):
 
 class IndexPromotionBanner(BaseModel):
     '''首页促销活动模型类'''
-    name = models.CharField(max_length=20,verbose_name="活动名称")
+    name = models.CharField(max_length=20, verbose_name="活动名称")
     # url1=models.URLField(verbose_name="活动链接")
-    url = models.CharField(max_length=256,verbose_name="活动链接")
-    image = models.ImageField(upload_to="banner",verbose_name="活动图片")
+    url = models.CharField(max_length=256, verbose_name="活动链接")
+    image = models.ImageField(upload_to="banner", verbose_name="活动图片")
     index = models.SmallIntegerField(default=0, verbose_name="展示顺序")
+
     class Meta:
         db_table = "df_index_promotion"
-        verbose_name="主页促销活动"
+        verbose_name = "主页促销活动"
         verbose_name_plural = verbose_name
+
+
+class Discuss(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name='评论编号')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    sku= models.ForeignKey("GoodsSKU", verbose_name="评论的商品")
+    content = models.CharField(max_length=60, verbose_name="评论内容")
+    user=models.CharField(max_length=20,verbose_name="用户")
+    pid = models.ForeignKey("self", null=True, verbose_name="评论的谁")
+
+    class Meta:
+        db_table="df_discuss"
+        verbose_name="评论"
+        verbose_name_plural=verbose_name
