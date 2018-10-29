@@ -1,0 +1,139 @@
+*** Starting uWSGI 2.0.17.1 (64bit) on [Mon Oct 29 21:17:56 2018] ***
+compiled with version: 5.4.0 20160609 on 28 October 2018 12:17:09
+os: Linux-4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:33:37 UTC 2016
+nodename: kai-virtual-machine
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/kai/dailyfresh
+writing pidfile to uwsgi.pid
+detected binary path: /home/kai/.myvirtualenvs/my_ttsx/bin/uwsgi
+chdir() to /home/kai/dailyfresh
+your processes number limit is 15581
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+bind(): Cannot assign requested address [core/socket.c line 769]
+*** Starting uWSGI 2.0.17.1 (64bit) on [Mon Oct 29 21:18:58 2018] ***
+compiled with version: 5.4.0 20160609 on 28 October 2018 12:17:09
+os: Linux-4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:33:37 UTC 2016
+nodename: kai-virtual-machine
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/kai/dailyfresh
+writing pidfile to uwsgi.pid
+detected binary path: /home/kai/.myvirtualenvs/my_ttsx/bin/uwsgi
+chdir() to /home/kai/dailyfresh
+your processes number limit is 15581
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on 192.168.12.184:5555 fd 4
+uwsgi socket 0 bound to TCP address 127.0.0.1:40996 (port auto-assigned) fd 3
+Python version: 3.5.2 (default, Nov 23 2017, 16:37:01)  [GCC 5.4.0 20160609]
+Python main interpreter initialized at 0x11099b0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 416720 bytes (406 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x11099b0 pid: 114990 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 114990)
+spawned uWSGI worker 1 (pid: 114993, cores: 2)
+spawned uWSGI worker 2 (pid: 114994, cores: 2)
+spawned uWSGI worker 3 (pid: 114995, cores: 2)
+spawned uWSGI worker 4 (pid: 114996, cores: 2)
+spawned uWSGI http 1 (pid: 114997)
+[pid: 114996|app: 0|req: 1/1] 192.168.12.141 () {38 vars in 756 bytes} [Mon Oct 29 21:22:56 2018] GET /user/login => generated 0 bytes in 1715 msecs (HTTP/1.1 301) 3 headers in 153 bytes (1 switches on core 0)
+[pid: 114996|app: 0|req: 2/2] 192.168.12.141 () {38 vars in 758 bytes} [Mon Oct 29 21:22:58 2018] GET /user/login/ => generated 3038 bytes in 51 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 114996|app: 0|req: 3/3] 192.168.12.141 () {38 vars in 728 bytes} [Mon Oct 29 21:22:58 2018] GET /static/css/reset.css => generated 94 bytes in 62 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 114996|app: 0|req: 4/4] 192.168.12.141 () {40 vars in 790 bytes} [Mon Oct 29 21:23:18 2018] GET /user/login/ => generated 3038 bytes in 251 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 114996|app: 0|req: 5/5] 192.168.12.141 () {38 vars in 758 bytes} [Mon Oct 29 21:23:18 2018] GET /static/images/logo02.png => generated 98 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 114993|app: 0|req: 2/6] 192.168.12.141 () {38 vars in 727 bytes} [Mon Oct 29 21:23:18 2018] GET /static/css/main.css => generated 93 bytes in 34703 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 114993|app: 0|req: 2/7] 192.168.12.141 () {38 vars in 757 bytes} [Mon Oct 29 21:22:58 2018] GET /static/images/logo02.png => generated 98 bytes in 54962 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 114994|app: 0|req: 2/8] 192.168.12.141 () {38 vars in 747 bytes} [Mon Oct 29 21:22:58 2018] GET /user/validate_code/ => generated 3201 bytes in 55641 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 0)
+[pid: 114994|app: 0|req: 2/9] 192.168.12.141 () {38 vars in 748 bytes} [Mon Oct 29 21:23:18 2018] GET /user/validate_code/ => generated 3211 bytes in 35375 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 1)
+[pid: 114995|app: 0|req: 2/10] 192.168.12.141 () {38 vars in 729 bytes} [Mon Oct 29 21:23:18 2018] GET /static/css/reset.css => generated 94 bytes in 35601 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 114995|app: 0|req: 2/11] 192.168.12.141 () {38 vars in 726 bytes} [Mon Oct 29 21:22:58 2018] GET /static/css/main.css => generated 93 bytes in 55852 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 114996|app: 0|req: 6/12] 192.168.12.141 () {38 vars in 732 bytes} [Mon Oct 29 21:23:54 2018] GET /favicon.ico => generated 85 bytes in 2 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+gateway "uWSGI http 1" has been buried (pid: 114997)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 114993)...
+Gracefully killing worker 2 (pid: 114994)...
+Gracefully killing worker 3 (pid: 114995)...
+Gracefully killing worker 4 (pid: 114996)...
+worker 1 buried after 6 seconds
+worker 2 buried after 6 seconds
+worker 3 buried after 6 seconds
+worker 4 buried after 6 seconds
+binary reloading uWSGI...
+chdir() to /home/kai/dailyfresh
+closing all non-uwsgi socket fds > 2 (max_fd = 1024)...
+found fd 3 mapped to socket 0 (127.0.0.1:40996)
+running /home/kai/.myvirtualenvs/my_ttsx/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.17.1 (64bit) on [Mon Oct 29 21:35:02 2018] ***
+compiled with version: 5.4.0 20160609 on 28 October 2018 12:17:09
+os: Linux-4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:33:37 UTC 2016
+nodename: kai-virtual-machine
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/kai/dailyfresh
+detected binary path: /home/kai/.myvirtualenvs/my_ttsx/bin/uwsgi
+chdir() to /home/kai/dailyfresh
+your processes number limit is 15581
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 192.168.12.184:5555 fd 3
+Python version: 3.5.2 (default, Nov 23 2017, 16:37:01)  [GCC 5.4.0 20160609]
+Python main interpreter initialized at 0x1e9e710
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 416720 bytes (406 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 2 seconds on interpreter 0x1e9e710 pid: 114990 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 114990)
+spawned uWSGI worker 1 (pid: 115238, cores: 2)
+spawned uWSGI worker 2 (pid: 115239, cores: 2)
+spawned uWSGI worker 3 (pid: 115240, cores: 2)
+spawned uWSGI worker 4 (pid: 115243, cores: 2)
+[pid: 115238|app: 0|req: 1/1] 192.168.12.141 () {40 vars in 787 bytes} [Mon Oct 29 21:35:27 2018] GET /user/login/ => generated 3038 bytes in 3376 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 115238|app: 0|req: 2/2] 192.168.12.141 () {40 vars in 757 bytes} [Mon Oct 29 21:35:31 2018] GET /static/css/reset.css => generated 94 bytes in 51 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 2/3] 192.168.12.141 () {40 vars in 755 bytes} [Mon Oct 29 21:35:31 2018] GET /static/css/main.css => generated 93 bytes in 4821 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115240|app: 0|req: 1/4] 192.168.12.141 () {40 vars in 786 bytes} [Mon Oct 29 21:35:31 2018] GET /static/images/logo02.png => generated 98 bytes in 4906 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 2/5] 192.168.12.141 () {42 vars in 818 bytes} [Mon Oct 29 21:35:31 2018] GET /user/login/ => generated 3038 bytes in 4875 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 115240|app: 0|req: 2/6] 192.168.12.141 () {40 vars in 755 bytes} [Mon Oct 29 21:35:36 2018] GET /static/css/main.css => generated 93 bytes in 8 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115238|app: 0|req: 3/7] 192.168.12.141 () {40 vars in 786 bytes} [Mon Oct 29 21:35:36 2018] GET /static/images/logo02.png => generated 98 bytes in 3 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 3/8] 192.168.12.141 () {40 vars in 757 bytes} [Mon Oct 29 21:35:36 2018] GET /static/css/reset.css => generated 94 bytes in 41 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115239|app: 0|req: 2/9] 192.168.12.141 () {40 vars in 776 bytes} [Mon Oct 29 21:35:36 2018] GET /user/validate_code/ => generated 3250 bytes in 88 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 1)
+[pid: 115239|app: 0|req: 2/10] 192.168.12.141 () {40 vars in 776 bytes} [Mon Oct 29 21:35:31 2018] GET /user/validate_code/ => generated 3168 bytes in 5094 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 4/11] 192.168.12.141 () {40 vars in 760 bytes} [Mon Oct 29 21:35:36 2018] GET /favicon.ico => generated 85 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 115240|app: 0|req: 3/12] 192.168.12.141 () {42 vars in 811 bytes} [Mon Oct 29 21:36:44 2018] GET /user/login/ => generated 3038 bytes in 58 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 115238|app: 0|req: 4/13] 192.168.12.141 () {40 vars in 774 bytes} [Mon Oct 29 21:36:44 2018] GET /static/images/logo02.png => generated 98 bytes in 10 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 115240|app: 0|req: 4/14] 192.168.12.141 () {44 vars in 835 bytes} [Mon Oct 29 21:36:44 2018] GET /static/css/main.css => generated 93 bytes in 28 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 115239|app: 0|req: 3/15] 192.168.12.141 () {40 vars in 764 bytes} [Mon Oct 29 21:36:44 2018] GET /user/validate_code/ => generated 2797 bytes in 50 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 5/16] 192.168.12.141 () {40 vars in 748 bytes} [Mon Oct 29 21:36:44 2018] GET /favicon.ico => generated 85 bytes in 3 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 6/17] 192.168.12.141 () {42 vars in 811 bytes} [Mon Oct 29 21:36:49 2018] GET /user/login/ => generated 3038 bytes in 17 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 7/18] 192.168.12.141 () {40 vars in 743 bytes} [Mon Oct 29 21:36:49 2018] GET /static/css/main.css => generated 93 bytes in 4 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115238|app: 0|req: 5/19] 192.168.12.141 () {40 vars in 774 bytes} [Mon Oct 29 21:36:49 2018] GET /static/images/logo02.png => generated 98 bytes in 2 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 115240|app: 0|req: 5/20] 192.168.12.141 () {40 vars in 764 bytes} [Mon Oct 29 21:36:49 2018] GET /user/validate_code/ => generated 3069 bytes in 56 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 0)
+[pid: 115240|app: 0|req: 6/21] 192.168.12.141 () {42 vars in 811 bytes} [Mon Oct 29 21:49:26 2018] GET /user/login/ => generated 3038 bytes in 27 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 115238|app: 0|req: 6/22] 192.168.12.141 () {40 vars in 764 bytes} [Mon Oct 29 21:49:26 2018] GET /user/validate_code/ => generated 3038 bytes in 132 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 8/23] 192.168.12.141 () {42 vars in 835 bytes} [Mon Oct 29 21:49:28 2018] GET /user/register/ => generated 3479 bytes in 31 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 9/24] 192.168.12.141 () {42 vars in 832 bytes} [Mon Oct 29 21:49:30 2018] GET /user/login/ => generated 3038 bytes in 27 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 10/25] 192.168.12.141 () {40 vars in 764 bytes} [Mon Oct 29 21:49:30 2018] GET /user/validate_code/ => generated 3298 bytes in 83 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 11/26] 192.168.12.141 () {44 vars in 863 bytes} [Mon Oct 29 21:49:37 2018] GET /user/login/ => generated 3038 bytes in 19 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 115243|app: 0|req: 12/27] 192.168.12.141 () {40 vars in 764 bytes} [Mon Oct 29 21:49:37 2018] GET /user/validate_code/ => generated 3061 bytes in 67 msecs (HTTP/1.1 200) 4 headers in 218 bytes (1 switches on core 0)
+[pid: 115243|app: 0|req: 13/28] 192.168.12.141 () {40 vars in 800 bytes} [Mon Oct 29 21:49:45 2018] GET /user/goods/index.html => generated 95 bytes in 11 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)

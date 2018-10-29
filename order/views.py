@@ -248,15 +248,20 @@ class CheckPayView(LoginRequireMixin, View):
 
         try:
             print('order_id:%s' % order_id)
-            order = OrderInfo.objects.get(order_id=order_id, user=user, pay_method=3, order_status=1)
+            order = OrderInfo.objects.get(order_id=order_id, user_id=user.id, pay_method=3, order_status=1)
 
-        except OrderInfo.DoesNotExist:
+
+        except OrderInfo.DoesNotExist as e:
+            print(e)
             return JsonResponse({"res": 2, "errmsg": "订单错误"})
 
         # 业务处理:使用python sdk调用支付宝的支付接口
         # 初始化
+        # app_private_key_string = os.path.join(settings.BASE_DIR, )
+        # alipay_public_key_string = os.path.join(settings.BASE_DIR, )
         app_private_key_string = open("cart/migrations/app_private_key.pem").read()
         alipay_public_key_string = open("cart/migrations/app_public_key.pem").read()
+
         alipay = AliPay(
             appid="2016092000554978",
             app_notify_url=None,  # 默认回调url
@@ -267,24 +272,30 @@ class CheckPayView(LoginRequireMixin, View):
             debug=True  # 默认False
         )
         while True:
-            response = alipay.api_alipay_fund_trans_order_query(order_id)
+            response = alipay.api_alipay_trade_query(order_id)
             code = response.get("code")
+            print("code:%s"%code)
 
-            if code == "10000" and response.get("trade_status") == "TRADE_SUCCESS":
+            if code == '10000' and response.get('trade_status') == 'TRADE_SUCCESS':
                 # 支付成功
+
                 # 获取支付宝交易账号
                 trade_no = response.get("trade_no")
                 # 更新订单状态
                 order.trade_no = trade_no
-                order.order_status = 4
+                order.order_status = 4#待评价
                 order.save()
                 # 返回结果
                 return JsonResponse({"res": 3, "msg": "支付成功"})
-            elif code=="4004" or (code == '10000' and response.get("trade_status") == "WAIT_BUYER_PAY"):
+            elif code=="40004" or (code == '10000' and response.get("trade_status") == "WAIT_BUYER_PAY"):
                 import time
                 print("三秒后再次查询订单状态")
                 time.sleep(3)
                 continue
             else:
                 return JsonResponse({"res":4,"errmsg":"支付出错"})
+
+
+
+
 

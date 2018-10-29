@@ -18,15 +18,15 @@
             <div class="welcome fl">欢迎来到天天生鲜!</div>
             <div class="fr">
                 {% if request.user.is_authenticated %}
-                <div class="login_btn fl">
-                    欢迎您：<em>{{ request.user }}</em>
-                </div>
+                    <div class="login_btn fl">
+                        欢迎您：<em>{{ request.user }}</em>
+                    </div>
                 {% else %}
-                <div class="login_btn fl">
-                    <a href="login.html">登录</a>
-                    <span>|</span>
-                    <a href="register.html">注册</a>
-                </div>
+                    <div class="login_btn fl">
+                        <a href="login.html">登录</a>
+                        <span>|</span>
+                        <a href="register.html">注册</a>
+                    </div>
                 {% endif %}
                 <div class="user_link fl">
                     <span>|</span>
@@ -42,7 +42,7 @@
 {% endblock headest %}
 {% block head %}
     <div class="search_bar clearfix">
-        <a href="{% url "goods:index"  %}" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
+        <a href="{% url "goods:index" %}" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
         <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
         <div class="search_con fr">
             <input type="text" class="input_text fl" name="" placeholder="搜索商品">
@@ -56,8 +56,10 @@
         <div class="left_menu_con clearfix">
             <h3>用户中心</h3>
             <ul>
-                <li><a href="{% url 'user:user_info' %}" {% if cxt.page == "1" %}class="active" {% endif %}>· 个人信息</a></li>
-                <li><a href="{% url 'user:user_order' 1 %}" {% if page == "2" %}class="active" {% endif %}>· 全部订单</a></li>
+                <li><a href="{% url 'user:user_info' %}" {% if cxt.page == "1" %}class="active" {% endif %}>· 个人信息</a>
+                </li>
+                <li><a href="{% url 'user:user_order' 1 %}" {% if page == "2" %}class="acvtie" {% endif %}>· 全部订单</a>
+                </li>
                 <li><a href="{% url 'user:user_site' %}" {% if page == "3" %}class="active" {% endif %}>· 收货地址</a></li>
             </ul>
         </div>
